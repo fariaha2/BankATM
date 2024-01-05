@@ -3,10 +3,10 @@ public class Account {
     public Account() {
         balance=0;
     }
-    public void AddMoney(int money) {
+    public void addMoney(double money) {
         balance+=money;
     }
-    public void RemoveMoney(int money) {
+    public void removeMoney(int money) {
         balance-=money;
     }
     public double getBalance() {

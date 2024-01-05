@@ -29,17 +29,32 @@ public class ATM {
                 System.out.println("How much money would you like to withdraw?");
 
             } else if(option==2) {
-                System.out.println("In which account would you like to deposit money?");
-
+                System.out.println("In which account would you like to deposit money? Enter S for savings, and C for checkings");
+                String account = scan.nextLine();
                 System.out.println("How much money would you like to deposit?");
-
+                double amt = scan.nextDouble();
+                if(account.equals("s")) {
+                    savingsAccount.addMoney(amt);
+                } else {
+                    checkingAccount.addMoney(amt);
+                }
             } else if(option==3) {
+                System.out.println("Savings to checkings (option 1) or checkings to savings? (enter 1/2");
+                int acc = scan.nextInt();
+                if(acc==1) {
+
+                } else if(acc==2) {
+
+                }
 
             } else if(option==4) {
                 System.out.println("Your account balances:\nSavings account: " + savingsAccount.getBalance() + "\nChecking account: " + checkingAccount.getBalance());
             } else if(option==5) {
 
             } else if(option==6) {
+                System.out.println("What do you want your new pin to be?");
+                int pin = scan.nextInt();
+                customer.updatePin(pin);
 
             } else if(option==7) {
                 choice = "n";
