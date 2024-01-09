@@ -6,7 +6,7 @@ public class Account {
     public void addMoney(double money) {
         balance+=money;
     }
-    public void removeMoney(int money) {
+    public void removeMoney(double money) {
         balance-=money;
     }
     public double getBalance() {
