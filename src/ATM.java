@@ -26,6 +26,7 @@ public class ATM {
             option = scan.nextInt();
             if(option==1) {
                 System.out.println("From which account would you like to withdraw money? (Enter S/C)");
+                scan.nextLine();
                 String account = scan.nextLine();
                 System.out.println("How much money would you like to withdraw?");
                 int amt = scan.nextInt();
@@ -33,12 +34,25 @@ public class ATM {
                     System.out.println("You must enter a number that ends in 5 or 0. Enter a new amount.");
                     amt = scan.nextInt();
                 }
+                int amt2 = amt;
+                int twenties;
+                int fives;
                 if(account.equals("s")) {
                     if(amt>savingsAccount.getBalance()) {
                         System.out.println("Insufficent funds!");
                     } else {
-                        int twenties = amt % 20;
-                        int fives = amt % 5;
+                        if(amt/20==0) {
+                            twenties=0;
+                        } else {
+                            int placeholder=amt;
+                            while(placeholder>0) {
+                                placeholder = placeholder-20;
+
+                            }
+                        }
+                        if(amt/5==0) {
+
+                        }
                         if(twenties % 2 ==0) {
                             System.out.println("Would you like to get " + twenties + "twenties or " + fives + " fives or " + (twenties/2)+ " twenties and " + (((twenties/2)*4) + fives) + " fives?");
                             System.out.println("Enter T for only twenties, F for only fives, and M for both");
@@ -55,6 +69,7 @@ public class ATM {
                 }
             } else if(option==2) {
                 System.out.println("In which account would you like to deposit money? Enter S for savings, and C for checkings");
+                scan.nextLine();
                 String account = scan.nextLine();
                 System.out.println("How much money would you like to deposit?");
                 double amt = scan.nextDouble();
@@ -63,6 +78,7 @@ public class ATM {
                 } else {
                     checkingAccount.addMoney(amt);
                 }
+                System.out.println("Deposit occurred!");
             } else if(option==3) {
                 System.out.println("Savings to checkings (option 1) or checkings to savings (option 2)? (enter 1/2)");
                 int acc = scan.nextInt();
