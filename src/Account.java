@@ -1,7 +1,9 @@
 public class Account {
     private double balance;
-    public Account() {
+    private Customer owner;
+    public Account(Customer customer) {
         balance=0;
+        owner = customer;
     }
     public void addMoney(double money) {
         balance+=money;

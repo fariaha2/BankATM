@@ -1,7 +1,6 @@
 import java.util.Scanner;
 public class ATM {
-    public ATM() {
-    }
+    public ATM() {}
     public void start() {
         Scanner scan = new Scanner(System.in);
         String choice = "y";
@@ -10,8 +9,8 @@ public class ATM {
         System.out.println("What is your name?");
         String name = scan.nextLine();
         Customer customer = new Customer(name,(int) (Math.random()*50)+1);
-        Account savingsAccount = new Account();
-        Account checkingAccount = new Account();
+        Account savingsAccount = new Account(customer);
+        Account checkingAccount = new Account(customer);
         TransactionHistory history = new TransactionHistory();
         System.out.println("Hello, " + name + "! The pin to your account is " + customer.getPin() + ".");
         System.out.println("Enter your pin");
@@ -34,37 +33,50 @@ public class ATM {
                     System.out.println("You must enter a number that ends in 5 or 0. Enter a new amount.");
                     amt = scan.nextInt();
                 }
-                int amt2 = amt;
-                int twenties;
-                int fives;
+                int twenties = 0;
+                int fives = 0;
                 if(account.equals("s")) {
                     if(amt>savingsAccount.getBalance()) {
                         System.out.println("Insufficent funds!");
+                        history.addToHistory("Withdraw money from savings account", false);
                     } else {
-                        if(amt/20==0) {
-                            twenties=0;
+                        if(amt%20==0) {
+                            twenties = amt/20;
                         } else {
-                            int placeholder=amt;
-                            while(placeholder>0) {
-                                placeholder = placeholder-20;
-
-                            }
+                            twenties = (amt-(amt%20))/20;
                         }
-                        if(amt/5==0) {
-
+                        if(amt%5==0) {
+                            fives = amt%5;
+                        } else {
+                            twenties = (amt-(amt%5))/5;
                         }
-                        if(twenties % 2 ==0) {
-                            System.out.println("Would you like to get " + twenties + "twenties or " + fives + " fives or " + (twenties/2)+ " twenties and " + (((twenties/2)*4) + fives) + " fives?");
-                            System.out.println("Enter T for only twenties, F for only fives, and M for both");
-                            String choice2 = scan.nextLine();
-                                System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "!");
-                        }
+                        System.out.println("Would you like to get " + twenties + "twenties or " + fives + " fives or " + (twenties/2)+ " twenties and " + (((twenties/2)*4) + fives) + " fives?");
+                        System.out.println("Enter T for only twenties, F for only fives, and M for both");
+                        String choice2 = scan.nextLine();
+                        history.addToHistory("Withdraw money from savings account", true);
+                        System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "!");
                     }
                 } else {
                     if (amt>checkingAccount.getBalance()) {
                         System.out.println("Insufficent funds!");
+                        history.addToHistory("Withdraw money from checkings account", false);
                     } else {
-
+                        System.out.println("ficw" + amt%5);
+                        if(amt%20==0) {
+                            twenties = amt/20;
+                        } else {
+                            twenties = (amt-(amt%20))/20;
+                        }
+                        if(amt%5==0) {
+                            fives = amt/5;
+                        } else {
+                            fives = (amt-(amt%5))/5;
+                        }
+                        System.out.println("Would you like to get " + twenties + " twenties or " + fives + " fives or " + (twenties/2)+ " twenties and " + (((twenties/2)*4) + fives) + " fives?");
+                        System.out.println("Enter T for only twenties, F for only fives, and M for both");
+                        String choice2 = scan.nextLine();
+                        System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "!");
+                        history.addToHistory("Withdraw money from checkings account", true);
                     }
                 }
             } else if(option==2) {
@@ -75,8 +87,10 @@ public class ATM {
                 double amt = scan.nextDouble();
                 if(account.equals("s")) {
                     savingsAccount.addMoney(amt);
+                    history.addToHistory("Money deposited into savings account", true);
                 } else {
                     checkingAccount.addMoney(amt);
+                    history.addToHistory("Money deposited into checkings account", true);
                 }
                 System.out.println("Deposit occurred!");
             } else if(option==3) {
@@ -86,33 +100,34 @@ public class ATM {
                 double amt = scan.nextDouble();
                 if(acc==1) {
                     if(amt> savingsAccount.getBalance()) {
-                        while(amt>savingsAccount.getBalance()) {
-                            System.out.println("You do not have enough money in your account. Enter a new amount");
-                            amt = scan.nextDouble();
-                        }
+                        System.out.println("You do not have enough money in your account.");
+                        history.addToHistory("Money transferred from savings account", false);
                     }
                     savingsAccount.removeMoney(amt);
                     checkingAccount.addMoney(amt);
+                    history.addToHistory("Money transferred from savings account", true);
                 } else {
                     if(amt>checkingAccount.getBalance()) {
-                        while(amt>checkingAccount.getBalance()) {
-                            System.out.println("You do not have enough money in your account. Enter a new amount");
-                            amt = scan.nextDouble();
-                        }
+                        System.out.println("You do not have enough money in your account. Enter a new amount");
+                        history.addToHistory("Money transferred from checkings account", false);
                     }
                     checkingAccount.removeMoney(amt);
                     savingsAccount.addMoney(amt);
+                    history.addToHistory("Money transferred from checkings account", true);
                 }
                 System.out.println("Done!");
             } else if(option==4) {
                 System.out.println("Your account balances:\nSavings account: " + savingsAccount.getBalance() + "\nChecking account: " + checkingAccount.getBalance());
+                history.addToHistory("Checked account balances", true);
             } else if(option==5) {
-                history.printHistory();
+                System.out.println(history.printHistory());
+                history.addToHistory("Checked transaction history", true);
             } else if(option==6) {
                 System.out.println("What do you want your new pin to be?");
                 pin = scan.nextInt();
                 customer.updatePin(pin);
                 System.out.println("PIN changed");
+                history.addToHistory("Changed pin", true);
             } else if(option==7) {
                 choice = "n";
             }
