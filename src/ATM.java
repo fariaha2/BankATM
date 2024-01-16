@@ -5,7 +5,7 @@ public class ATM {
         Scanner scan = new Scanner(System.in);
         String choice = "y";
         int option;
-        System.out.println("Welcome to the ATM!");
+        System.out.println("Welcome to the ATM! \uD83C\uDFE7");
         System.out.println("What is your name?");
         String name = scan.nextLine();
         Customer customer = new Customer(name,(int) (Math.random()*50)+1);
@@ -13,24 +13,24 @@ public class ATM {
         Account checkingAccount = new Account(customer);
         TransactionHistory history = new TransactionHistory();
         System.out.println("Hello, " + name + "! The pin to your account is " + customer.getPin() + ".");
-        System.out.println("Enter your pin");
+        System.out.println("Enter your pin \uD83D\uDD22");
         int pin = scan.nextInt();
         while(pin!=customer.getPin()) {
             System.out.println("That pin is incorrect! Try again.");
-            System.out.println("Enter your pin");
+            System.out.println("Enter your pin \uD83D\uDD22");
             pin = scan.nextInt();
         }
         while(choice.equals("y")) {
-            System.out.println("What would you like to do?\n1. Withdraw money\n2. Deposit money\n3. Transfer money between accounts \n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit");
+            System.out.println("What would you like to do? \uD83D\uDD20\n1. Withdraw money\n2. Deposit money\n3. Transfer money between accounts \n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit");
             option = scan.nextInt();
             if(option==1) {
-                System.out.println("From which account would you like to withdraw money? (Enter S/C)");
+                System.out.println("From which account would you like to withdraw money? (Enter S/C) \uD83D\uDCB3");
                 scan.nextLine();
                 String account = scan.nextLine().toLowerCase();
-                System.out.println("How much money would you like to withdraw?");
+                System.out.println("How much money would you like to withdraw? \uD83D\uDCB2");
                 int amt = scan.nextInt();
                 while(amt % 5 != 0) {
-                    System.out.println("You must enter a number that ends in 5 or 0. Enter a new amount.");
+                    System.out.println("You must enter a number that ends in 5 or 0. Enter a new amount. \uD83D\uDD22");
                     amt = scan.nextInt();
                 }
                 int twenties = 0;
@@ -54,7 +54,7 @@ public class ATM {
                     } else {
                         if(amt%20==0) {
                             System.out.println("Would you like to receive " + twenties + " twenties or" + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
-                            System.out.println("Enter T for only twenties, F for only fives, and B for both");
+                            System.out.println("Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
                             scan.nextLine();
                             String choice2 = scan.nextLine();
                             history.addToHistory("Withdraw money from savings account", true);
@@ -64,7 +64,7 @@ public class ATM {
                             System.out.println("Here are your " + twenties + " twenties and your " + fives + " fives!");
                             history.addToHistory("Withdraw money from savings account", true);
                         }
-                        System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "!");
+                        System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "! \uD83D\uDCB0");
                     }
                 } else {
                     if (amt>checkingAccount.getBalance()) {
@@ -73,7 +73,7 @@ public class ATM {
                     } else {
                         if(amt%20==0) {
                                 System.out.println("Would you like to receive " + twenties + " twenties or " + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
-                                System.out.println("Enter T for only twenties, F for only fives, and B for both");
+                                System.out.println("Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
                                 scan.nextLine();
                                 String choice2 = scan.nextLine();
                                 history.addToHistory("Withdraw money from savings account", true);
@@ -83,15 +83,15 @@ public class ATM {
                             System.out.println("Here are your " + twenties + " twenties and your " + fives + " fives!");
                             history.addToHistory("Withdraw money from savings account", true);
                         }
-                        System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "!");
+                        System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "! \uD83D\uDCB0");
                     }
                 }
 
             } else if(option==2) {
-                System.out.println("In which account would you like to deposit money? Enter S for savings, and C for checkings");
+                System.out.println("In which account would you like to deposit money? Enter S for savings, and C for checkings \uD83D\uDCB3");
                 scan.nextLine();
                 String account = scan.nextLine().toLowerCase();
-                System.out.println("How much money would you like to deposit?");
+                System.out.println("How much money would you like to deposit? \uD83D\uDCB2");
                 double amt = scan.nextDouble();
                 if(account.equals("s")) {
                     savingsAccount.addMoney(amt);
@@ -102,9 +102,9 @@ public class ATM {
                 }
                 System.out.println("Deposit occurred!");
             } else if(option==3) {
-                System.out.println("Savings to checkings (option 1) or checkings to savings (option 2)? (enter 1/2)");
+                System.out.println("Savings to checkings (option 1) or checkings to savings (option 2)? (enter 1/2) \uD83D\uDCB3");
                 int acc = scan.nextInt();
-                System.out.println("How much money?");
+                System.out.println("How much money? \uD83D\uDCB2");
                 double amt = scan.nextDouble();
                 if(acc==1) {
                     if(amt> savingsAccount.getBalance()) {
@@ -114,6 +114,7 @@ public class ATM {
                     savingsAccount.removeMoney(amt);
                     checkingAccount.addMoney(amt);
                     history.addToHistory("Money transferred from savings account", true);
+                    System.out.println("Done!");
                 } else {
                     if(amt>checkingAccount.getBalance()) {
                         System.out.println("You do not have enough money in your account. Enter a new amount");
@@ -122,8 +123,9 @@ public class ATM {
                     checkingAccount.removeMoney(amt);
                     savingsAccount.addMoney(amt);
                     history.addToHistory("Money transferred from checkings account", true);
+                    System.out.println("Done!");
                 }
-                System.out.println("Done!");
+
             } else if(option==4) {
                 System.out.println("Your account balances:\nSavings account: " + savingsAccount.getBalance() + "\nChecking account: " + checkingAccount.getBalance());
                 history.addToHistory("Checked account balances", true);
@@ -131,7 +133,7 @@ public class ATM {
                 System.out.println(history.printHistory());
                 history.addToHistory("Checked transaction history", true);
             } else if(option==6) {
-                System.out.println("What do you want your new pin to be?");
+                System.out.println("What do you want your new pin to be? \uD83D\uDD22");
                 pin = scan.nextInt();
                 customer.updatePin(pin);
                 System.out.println("PIN changed");
