@@ -26,7 +26,7 @@ public class ATM {
             if(option==1) {
                 System.out.println("From which account would you like to withdraw money? (Enter S/C)");
                 scan.nextLine();
-                String account = scan.nextLine();
+                String account = scan.nextLine().toLowerCase();
                 System.out.println("How much money would you like to withdraw?");
                 int amt = scan.nextInt();
                 while(amt % 5 != 0) {
@@ -35,25 +35,35 @@ public class ATM {
                 }
                 int twenties = 0;
                 int fives = 0;
+                if(amt%20==0) {
+                    if(amt%20==0) {
+                        twenties = amt/20;
+                    } else {
+                        twenties = (amt-(amt%20))/20;
+                    }
+                    if(amt%5==0) {
+                        fives = amt/5;
+                    } else {
+                        fives = (amt-(amt%5))/5;
+                    }
+                }
                 if(account.equals("s")) {
                     if(amt>savingsAccount.getBalance()) {
                         System.out.println("Insufficent funds!");
                         history.addToHistory("Withdraw money from savings account", false);
                     } else {
                         if(amt%20==0) {
-                            twenties = amt/20;
+                            System.out.println("Would you like to receive " + twenties + " twenties or" + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
+                            System.out.println("Enter T for only twenties, F for only fives, and B for both");
+                            scan.nextLine();
+                            String choice2 = scan.nextLine();
+                            history.addToHistory("Withdraw money from savings account", true);
                         } else {
                             twenties = (amt-(amt%20))/20;
+                            fives = (amt-(twenties*20))/5;
+                            System.out.println("Here are your " + twenties + " twenties and your " + fives + " fives!");
+                            history.addToHistory("Withdraw money from savings account", true);
                         }
-                        if(amt%5==0) {
-                            fives = amt%5;
-                        } else {
-                            twenties = (amt-(amt%5))/5;
-                        }
-                        System.out.println("Would you like to get " + twenties + "twenties or " + fives + " fives or " + (twenties/2)+ " twenties and " + (((twenties/2)*4) + fives) + " fives?");
-                        System.out.println("Enter T for only twenties, F for only fives, and M for both");
-                        String choice2 = scan.nextLine();
-                        history.addToHistory("Withdraw money from savings account", true);
                         System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "!");
                     }
                 } else {
@@ -61,28 +71,26 @@ public class ATM {
                         System.out.println("Insufficent funds!");
                         history.addToHistory("Withdraw money from checkings account", false);
                     } else {
-                        System.out.println("ficw" + amt%5);
                         if(amt%20==0) {
-                            twenties = amt/20;
+                                System.out.println("Would you like to receive " + twenties + " twenties or " + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
+                                System.out.println("Enter T for only twenties, F for only fives, and B for both");
+                                scan.nextLine();
+                                String choice2 = scan.nextLine();
+                                history.addToHistory("Withdraw money from savings account", true);
                         } else {
                             twenties = (amt-(amt%20))/20;
+                            fives = (amt-(twenties*20))/5;
+                            System.out.println("Here are your " + twenties + " twenties and your " + fives + " fives!");
+                            history.addToHistory("Withdraw money from savings account", true);
                         }
-                        if(amt%5==0) {
-                            fives = amt/5;
-                        } else {
-                            fives = (amt-(amt%5))/5;
-                        }
-                        System.out.println("Would you like to get " + twenties + " twenties or " + fives + " fives or " + (twenties/2)+ " twenties and " + (((twenties/2)*4) + fives) + " fives?");
-                        System.out.println("Enter T for only twenties, F for only fives, and M for both");
-                        String choice2 = scan.nextLine();
                         System.out.println("Thank you for using this ATM machine! Here's your $" + amt + "!");
-                        history.addToHistory("Withdraw money from checkings account", true);
                     }
                 }
+
             } else if(option==2) {
                 System.out.println("In which account would you like to deposit money? Enter S for savings, and C for checkings");
                 scan.nextLine();
-                String account = scan.nextLine();
+                String account = scan.nextLine().toLowerCase();
                 System.out.println("How much money would you like to deposit?");
                 double amt = scan.nextDouble();
                 if(account.equals("s")) {
