@@ -24,13 +24,13 @@ public class ATM {
             System.out.println("What would you like to do? \uD83D\uDD20\n1. Withdraw money\n2. Deposit money\n3. Transfer money between accounts \n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit");
             option = scan.nextInt();
             if(option==1) {
-                System.out.println("From which account would you like to withdraw money? (Enter S/C) \uD83D\uDCB3");
+                System.out.println("From which account would you like to withdraw " + ConsoleUtility.GREEN + "money" + ConsoleUtility.RESET + "? (Enter S/C) \uD83D\uDCB3");
                 scan.nextLine();
                 String account = scan.nextLine().toLowerCase();
-                System.out.println("How much money would you like to withdraw? \uD83D\uDCB2");
+                System.out.println("How much " + ConsoleUtility.GREEN + "money" + ConsoleUtility.RESET + " would you like to withdraw? \uD83D\uDCB2");
                 int amt = scan.nextInt();
                 while(amt % 5 != 0) {
-                    System.out.println("You must enter a number that ends in 5 or 0. Enter a new amount. \uD83D\uDD22");
+                    System.out.println("You must enter a number that ends in 5 or 0." + ConsoleUtility.WHITE + "Enter a new amount." + ConsoleUtility.RESET +  "\uD83D\uDD22");
                     amt = scan.nextInt();
                 }
                 int twenties = 0;
@@ -91,7 +91,7 @@ public class ATM {
                 System.out.println("In which account would you like to deposit money? Enter S for savings, and C for checkings \uD83D\uDCB3");
                 scan.nextLine();
                 String account = scan.nextLine().toLowerCase();
-                System.out.println("How much money would you like to deposit? \uD83D\uDCB2");
+                System.out.println("How much " + ConsoleUtility.GREEN + "money" + ConsoleUtility.RESET + " would you like to deposit? \uD83D\uDCB2");
                 double amt = scan.nextDouble();
                 if(account.equals("s")) {
                     savingsAccount.addMoney(amt);
@@ -102,9 +102,9 @@ public class ATM {
                 }
                 System.out.println("Deposit occurred!");
             } else if(option==3) {
-                System.out.println("Savings to checkings (option 1) or checkings to savings (option 2)? (enter 1/2) \uD83D\uDCB3");
+                System.out.println("Savings to checkings " + ConsoleUtility.WHITE + "(option 1) " + ConsoleUtility.RESET + "or checkings to savings " + ConsoleUtility.WHITE + "(option 1)" + ConsoleUtility.RESET + "? (enter 1/2) \uD83D\uDCB3");
                 int acc = scan.nextInt();
-                System.out.println("How much money? \uD83D\uDCB2");
+                System.out.println("How much" + ConsoleUtility.GREEN + "money" + ConsoleUtility.RESET + " ? \uD83D\uDCB2");
                 double amt = scan.nextDouble();
                 if(acc==1) {
                     if(amt> savingsAccount.getBalance()) {
@@ -133,10 +133,10 @@ public class ATM {
                 System.out.println(history.printHistory());
                 history.addToHistory("Checked transaction history", true);
             } else if(option==6) {
-                System.out.println("What do you want your new pin to be? \uD83D\uDD22");
+                System.out.println("What do you want your new" + ConsoleUtility.WHITE + " pin " + ConsoleUtility.RESET +  "to be? \uD83D\uDD22");
                 pin = scan.nextInt();
                 customer.updatePin(pin);
-                System.out.println("PIN changed");
+                System.out.println( ConsoleUtility.WHITE + "PIN " + ConsoleUtility.RESET + "changed");
                 history.addToHistory("Changed pin", true);
             } else if(option==7) {
                 choice = "n";
