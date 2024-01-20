@@ -37,16 +37,15 @@ public class ATM {
                 int twenties = 0;
                 int fives = 0;
                 if(amt%20==0) {
-                    if(amt%20==0) {
-                        twenties = amt/20;
-                    } else {
-                        twenties = (amt-(amt%20))/20;
-                    }
-                    if(amt%5==0) {
-                        fives = amt/5;
-                    } else {
-                        fives = (amt-(amt%5))/5;
-                    }
+                    twenties = amt/20;
+                    fives = amt/5;
+                } else if(amt<20) {
+                    fives = amt/5;
+                } else {
+                    // calculates the number of bills here since amt doesn't go perfectly into 20
+                    twenties = (amt-(amt%20))/20;
+                    // calculates fives based on num of twenties since it represents money left over in amt for fives
+                    fives = (amt-(twenties*20))/5;
                 }
                 if(account.equals("s")) {
                     if(amt>savingsAccount.getBalance()) {
@@ -54,14 +53,18 @@ public class ATM {
                         history.addToHistory("Withdraw money from savings account", false);
                     } else {
                         if(amt%20==0) {
-                            System.out.println("Would you like to receive " + twenties + " twenties or" + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
-                            System.out.println(ConsoleUtility.WHITE + "Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
-                            scan.nextLine();
-                            String choice2 = scan.nextLine();
+                            if(twenties==0) {
+                                // prevents 0 twenties from being printed
+                                System.out.println("Here are your " + fives + " fives!");
+                            } else {
+                                // gives choice to user on which bills since multiple combinations are possible
+                                System.out.println("Would you like to receive " + twenties + " twenties or " + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
+                                System.out.println(ConsoleUtility.WHITE + "Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
+                                scan.nextLine();
+                                String choice2 = scan.nextLine();
+                            }
                             history.addToHistory("Withdraw money from savings account", true);
                         } else {
-                            twenties = (amt-(amt%20))/20;
-                            fives = (amt-(twenties*20))/5;
                             System.out.println("Here are your " + twenties + " twenties and your " + fives + " fives!");
                             history.addToHistory("Withdraw money from savings account", true);
                         }
@@ -69,18 +72,22 @@ public class ATM {
                     }
                 } else {
                     if (amt>checkingAccount.getBalance()) {
-                        System.out.println(ConsoleUtility.WHITE + "Insufficent funds!");
+                        System.out.println(ConsoleUtility.WHITE + "Insufficent funds!" + ConsoleUtility.RESET);
                         history.addToHistory("Withdraw money from checkings account", false);
                     } else {
                         if(amt%20==0) {
+                            if(twenties==0) {
+                                // prevents "0 twenties" from being printed
+                                System.out.println("Here are your " + fives + " fives!");
+                            } else {
+                                // gives choice to user on which bills since multiple combinations are possible
                                 System.out.println("Would you like to receive " + twenties + " twenties or " + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
                                 System.out.println(ConsoleUtility.WHITE + "Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
                                 scan.nextLine();
                                 String choice2 = scan.nextLine();
+                            }
                                 history.addToHistory("Withdraw money from savings account", true);
                         } else {
-                            twenties = (amt-(amt%20))/20;
-                            fives = (amt-(twenties*20))/5;
                             System.out.println("Here are your " + twenties + " twenties and your " + fives + " fives!");
                             history.addToHistory("Withdraw money from savings account", true);
                         }
