@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.util.Scanner;
 public class ATM {
     public ATM() {}
@@ -49,12 +50,12 @@ public class ATM {
                 }
                 if(account.equals("s")) {
                     if(amt>savingsAccount.getBalance()) {
-                        System.out.println("Insufficent funds!");
+                        System.out.println(ConsoleUtility.WHITE + "Insufficent funds!" + ConsoleUtility.RESET);
                         history.addToHistory("Withdraw money from savings account", false);
                     } else {
                         if(amt%20==0) {
                             System.out.println("Would you like to receive " + twenties + " twenties or" + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
-                            System.out.println("Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
+                            System.out.println(ConsoleUtility.WHITE + "Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
                             scan.nextLine();
                             String choice2 = scan.nextLine();
                             history.addToHistory("Withdraw money from savings account", true);
@@ -68,12 +69,12 @@ public class ATM {
                     }
                 } else {
                     if (amt>checkingAccount.getBalance()) {
-                        System.out.println("Insufficent funds!");
+                        System.out.println(ConsoleUtility.WHITE + "Insufficent funds!");
                         history.addToHistory("Withdraw money from checkings account", false);
                     } else {
                         if(amt%20==0) {
                                 System.out.println("Would you like to receive " + twenties + " twenties or " + fives + " fives or " + (twenties/2) + " twenties and " + (twenties-(twenties/2))*4 + " fives?");
-                                System.out.println("Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
+                                System.out.println(ConsoleUtility.WHITE + "Enter T for only twenties, F for only fives, and B for both \uD83D\uDD20");
                                 scan.nextLine();
                                 String choice2 = scan.nextLine();
                                 history.addToHistory("Withdraw money from savings account", true);
@@ -88,7 +89,7 @@ public class ATM {
                 }
 
             } else if(option==2) {
-                System.out.println("In which account would you like to deposit money? Enter S for savings, and C for checkings \uD83D\uDCB3");
+                System.out.println("In which account would you like to deposit money? " + ConsoleUtility.WHITE + "Enter S for savings, and C for checkings \uD83D\uDCB3" + ConsoleUtility.RESET);
                 scan.nextLine();
                 String account = scan.nextLine().toLowerCase();
                 System.out.println("How much " + ConsoleUtility.GREEN + "money" + ConsoleUtility.RESET + " would you like to deposit? \uD83D\uDCB2");
@@ -102,30 +103,31 @@ public class ATM {
                 }
                 System.out.println("Deposit occurred!");
             } else if(option==3) {
-                System.out.println("Savings to checkings " + ConsoleUtility.WHITE + "(option 1) " + ConsoleUtility.RESET + "or checkings to savings " + ConsoleUtility.WHITE + "(option 1)" + ConsoleUtility.RESET + "? (enter 1/2) \uD83D\uDCB3");
+                System.out.println("Savings to checkings " + ConsoleUtility.WHITE + "(option 1) " + ConsoleUtility.RESET + "or checkings to savings " + ConsoleUtility.WHITE + "(option 2)" + ConsoleUtility.RESET + "? (enter 1/2) \uD83D\uDCB3");
                 int acc = scan.nextInt();
-                System.out.println("How much" + ConsoleUtility.GREEN + "money" + ConsoleUtility.RESET + " ? \uD83D\uDCB2");
+                System.out.println("How much" + ConsoleUtility.GREEN + " money" + ConsoleUtility.RESET + "? \uD83D\uDCB2");
                 double amt = scan.nextDouble();
                 if(acc==1) {
-                    if(amt> savingsAccount.getBalance()) {
+                    if(amt>savingsAccount.getBalance()) {
                         System.out.println("You do not have enough money in your account.");
                         history.addToHistory("Money transferred from savings account", false);
+                    } else {
+                        savingsAccount.removeMoney(amt);
+                        checkingAccount.addMoney(amt);
+                        history.addToHistory("Money transferred from savings account", true);
+                        System.out.println("Done!");
                     }
-                    savingsAccount.removeMoney(amt);
-                    checkingAccount.addMoney(amt);
-                    history.addToHistory("Money transferred from savings account", true);
-                    System.out.println("Done!");
                 } else {
                     if(amt>checkingAccount.getBalance()) {
-                        System.out.println("You do not have enough money in your account. Enter a new amount");
+                        System.out.println("You do not have enough money in your account.");
                         history.addToHistory("Money transferred from checkings account", false);
+                    } else {
+                        checkingAccount.removeMoney(amt);
+                        savingsAccount.addMoney(amt);
+                        history.addToHistory("Money transferred from checkings account", true);
+                        System.out.println("Done!");
                     }
-                    checkingAccount.removeMoney(amt);
-                    savingsAccount.addMoney(amt);
-                    history.addToHistory("Money transferred from checkings account", true);
-                    System.out.println("Done!");
                 }
-
             } else if(option==4) {
                 System.out.println("Your account balances:\nSavings account: " + savingsAccount.getBalance() + "\nChecking account: " + checkingAccount.getBalance());
                 history.addToHistory("Checked account balances", true);
